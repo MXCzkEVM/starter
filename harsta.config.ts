@@ -55,13 +55,23 @@ const config = defineConfig({
     },
   },
   deployments: {
-    ERC20WithOwnable: {
+    ERC20: {
+      target: 'ERC20WithOwnable',
+      args: async ({ getNamedAccount }) => {
+        return [await getNamedAccount('deployer'), 'TestName1', 'TestSymbol1']
+      },
+    },
+    ERC20WithTransparent: {
+      kind: 'transparent',
+      args: async ({ getNamedAccount }) => {
+        return [await getNamedAccount('deployer'), 'TestName1', 'TestSymbol1']
+      },
+    },
+    ERC20WithUUPS: {
       kind: 'uups',
-      args: async env => [
-        await env.getNamedAccount('deployer') || await env.getUnnamedAccount(),
-        'ERC20WithOwnable',
-        'ERC20WithOwnable',
-      ],
+      args: async ({ getNamedAccount }) => {
+        return [await getNamedAccount('deployer'), 'TestName1', 'TestSymbol1']
+      },
     },
   },
 })
